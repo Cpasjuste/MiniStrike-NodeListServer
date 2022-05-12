@@ -372,7 +372,13 @@ function apiAddToServerList(req, res) {
 		
 		// Check for a sneaky IP address and port collison attempt.
                 // if(typeof req.body.serverIp != "undefined" && checkIfValidIP(req.body.serverIp)) .... todo
-		queriedAddress = req.ip;
+    // ministrike fix: run server from same host as NodeListServer
+    if(req.ip === "::ffff:127.0.0.1") {
+      queriedAddress = "::ffff:37.187.88.96";
+      loggerInstance.info(`**** LOCALHOST HOOK: ${queriedAddress} ****`);
+    } else {
+		  queriedAddress = req.ip;
+		}
 		
 		if(apiDoesThisServerExistByAddressPort(queriedAddress, req.body.serverPort)) {
 			loggerInstance.warn(`Request from ${req.ip} denied: Server collision! We're attempting to add a server that's already known.`);
@@ -430,7 +436,13 @@ function apiRemoveFromServerList(req, res) {
 		return res.sendStatus(400);
 	} else {
 		knownServers = knownServers.filter((server) => server.uuid !== req.body.serverUuid);
-		loggerInstance.info(`Deleted server '${req.body.serverUuid}' from cache (requested by ${req.ip}).`);
+		// ministrike fix: run server from same host as NodeListServer
+    if(req.ip === "::ffff:127.0.0.1") {
+      loggerInstance.info(`**** LOCALHOST HOOK: ::ffff:37.187.88.96 ****`);
+      loggerInstance.info(`Deleted server '${req.body.serverUuid}' from cache (requested by ::ffff:37.187.88.96).`);
+    } else {
+		  loggerInstance.info(`Deleted server '${req.body.serverUuid}' from cache (requested by ${req.ip}).`);
+		}
 		return res.send("OK\n");
 	}
 }
