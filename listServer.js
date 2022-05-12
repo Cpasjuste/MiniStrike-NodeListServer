@@ -335,16 +335,16 @@ function apiAddToServerList(req, res) {
 	}
 
 	// If this is a potential existing server...
-	if(potentialExistingServer) {
+	if(potentialExistingServer && apiDoesServerExistByUuid(potentialExistingServerId)) {
 		// Does it really exist, tho?
-		if(apiDoesServerExistByUuid(potentialExistingServerId)) {
+		//if(apiDoesServerExistByUuid(potentialExistingServerId)) {
 			// Hand it over to the update routine.
 			apiUpdateServerInList(req, res, potentialExistingServerId);
-		} else {
+		//} else {
 			// Too bad. Go home.
-			loggerInstance.warn(`Request from ${req.ip} denied: No such server with UUID '${potentialExistingServerId}'`);
-			return res.sendStatus(400);
-		}
+		//	loggerInstance.warn(`Request from ${req.ip} denied: No such server with UUID '${potentialExistingServerId}'`);
+		//	return res.sendStatus(400);
+	  //	}
 	} else {
 		// Must be a new server trying to add itself.	
 		// Check to make sure the server name isn't null.
@@ -381,7 +381,7 @@ function apiAddToServerList(req, res) {
 		
 		// Time to wrap things up.
 		var newServer = {
-			"uuid": generateUuid(),
+			"uuid": req.body.serverUuid.trim(),
 			"ip": queriedAddress,
 			"name": req.body.serverName.trim(),
 			"port": parseInt(req.body.serverPort, 10),
