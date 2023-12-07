@@ -374,7 +374,7 @@ function apiAddToServerList(req, res) {
                 // if(typeof req.body.serverIp != "undefined" && checkIfValidIP(req.body.serverIp)) .... todo
     // ministrike fix: run server from same host as NodeListServer
     if(req.ip === "::ffff:127.0.0.1") {
-      queriedAddress = "::ffff:37.187.88.96";
+      queriedAddress = "::ffff:137.74.204.227";
       loggerInstance.info(`**** LOCALHOST HOOK: ${queriedAddress} ****`);
     } else {
 		  queriedAddress = req.ip;
@@ -438,8 +438,8 @@ function apiRemoveFromServerList(req, res) {
 		knownServers = knownServers.filter((server) => server.uuid !== req.body.serverUuid);
 		// ministrike fix: run server from same host as NodeListServer
     if(req.ip === "::ffff:127.0.0.1") {
-      loggerInstance.info(`**** LOCALHOST HOOK: ::ffff:37.187.88.96 ****`);
-      loggerInstance.info(`Deleted server '${req.body.serverUuid}' from cache (requested by ::ffff:37.187.88.96).`);
+      loggerInstance.info(`**** LOCALHOST HOOK: ::ffff:137.74.204.227 ****`);
+      loggerInstance.info(`Deleted server '${req.body.serverUuid}' from cache (requested by ::ffff:137.74.204.227).`);
     } else {
 		  loggerInstance.info(`Deleted server '${req.body.serverUuid}' from cache (requested by ${req.ip}).`);
 		}
